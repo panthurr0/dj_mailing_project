@@ -4,14 +4,25 @@ from django.db import models
 NULLABLE = {'blank': True, 'null': True}
 
 
+class Company(models.Model):
+    company_name = models.CharField(max_length=150, verbose_name="Название компании")
+
+    def __str__(self):
+        return self.company_name
+
+    class Meta:
+        verbose_name = "Компания"
+        verbose_name_plural = "Компании"
+
+
 class User(AbstractUser):
     username = None
-    email = models.EmailField(unique=True, verbose_name='почта')
+    email = models.EmailField(verbose_name='почта', unique=True)
+    company = models.ForeignKey(Company, on_delete=models.SET_NULL, verbose_name='компания', **NULLABLE)
 
+    token = models.CharField(verbose_name="Token", max_length=200, blank=True, null=True)
+    is_active = models.BooleanField(default=False)
     avatar = models.ImageField(verbose_name='аватар', upload_to='users/', **NULLABLE)
-    phone_number = models.CharField(max_length=25, verbose_name='номер телефона', **NULLABLE)
-
-    # token = models.CharField(max_length=100, verbose_name='Token', **NULLABLE)
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []

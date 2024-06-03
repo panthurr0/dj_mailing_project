@@ -1,12 +1,18 @@
 from django.db import models
+from users.models import Company
 
 NULLABLE = {'blank': True, 'null': True}
+CREATE = "Создана"
+IN_WORK = "В работе"
+DONE = "Завершена"
+ERROR = "Ошибка отправки"
 
 
 class Client(models.Model):
     name = models.CharField(verbose_name='ФИО', **NULLABLE)
-    email = models.EmailField(verbose_name='Контактный email', **NULLABLE)
+    email = models.EmailField(verbose_name='Контактный email', **NULLABLE, unique=True, max_length=50)
     comment = models.TextField(verbose_name='Комментарий', **NULLABLE)
+    company = models.ForeignKey(Company, on_delete=models.SET_NULL, verbose_name='компания', **NULLABLE)
 
     def __str__(self):
         return f'{self.name}'
@@ -20,6 +26,7 @@ class Client(models.Model):
 class MailingText(models.Model):
     theme = models.CharField(verbose_name='Тема письма', max_length=150, **NULLABLE)
     body = models.TextField(verbose_name='Тело письма', **NULLABLE)
+    clients = models.ManyToManyField(Client, verbose_name='Клиенты для рассылки', blank=True)
 
     def __str__(self):
         return f'{self.theme}'
@@ -31,36 +38,52 @@ class MailingText(models.Model):
 
 
 class Mailing(models.Model):
-    theme = models.ForeignKey(MailingText, on_delete=models.SET_NULL, null=True)
-    first_attempt = models.DateTimeField(verbose_name='Дата и время первой рассылки', auto_now=True)
-    periodicity = models.CharField(verbose_name='Периодичность', max_length=150, **NULLABLE)
-    status = models.CharField(verbose_name='Статус', max_length=75, **NULLABLE)
 
-    def __str__(self):
-        return f'{self.theme}'
+    DAILY = "раз в день"
+    WEEKLY = "раз в неделю"
+    MONTHLY = "раз в месяц"
+
+    FREQUENCY_CHOICES = [
+        (DAILY, "Ежедневно"),
+        (WEEKLY, "Еженедельно"),
+        (MONTHLY, "Ежемесячно"),
+    ]
+    STATUS_OF_MAILING = [
+        (CREATE, "Создана"),
+        (IN_WORK, "Запущена"),
+        (DONE, "Завершена"),
+        (ERROR, "Ошибка отправки"),
+    ]
+
+    start_time = models.DateTimeField(verbose_name='Время старта рассылки', **NULLABLE)
+    end_time = models.DateTimeField(verbose_name='Время конца рассылки', **NULLABLE)
+    frequency = models.CharField(verbose_name='Частота отправки', max_length=150, choices=FREQUENCY_CHOICES, default=MONTHLY)
+    is_active = models.CharField(verbose_name='Состояние рассылки', choices=STATUS_OF_MAILING, default=CREATE)
+
+    answer = models.BooleanField(verbose_name='Статус попытки', default=True)
+    clients = models.ManyToManyField(Client, verbose_name="Клиенты")
+    company = models.ForeignKey(Company, on_delete=models.SET_NULL, verbose_name='компания', **NULLABLE)
+
+    mail = models.ManyToManyField(MailingText, verbose_name="Сообщение для отправки")
 
     class Meta:
         verbose_name = 'Рассылка'
         verbose_name_plural = 'Рассылки'
-        ordering = ('theme',)
 
 
-class MailingAttempt(models.Model):
-    SUCCESS = 'success'
-    FAILURE = 'failure'
+class Status(models.Model):
+    last_attempt = models.DateTimeField(verbose_name='Дата и время первой рассылки', auto_now=True, **NULLABLE)
+    status = models.BooleanField(verbose_name='Статус последней попытки', max_length=75, **NULLABLE)
 
-    STATUS_CHOICES = [(SUCCESS, 'Успешно'), (FAILURE, 'Не успешно'),
-                      ]
-
-    mailing = models.ForeignKey(Mailing, on_delete=models.SET_NULL, null=True)
-    last_attempt = models.DateTimeField(verbose_name='дата и время последней попытки', auto_now=True)
-    status = models.BooleanField(verbose_name='Статус попытки', max_length=7, choices=STATUS_CHOICES, default=FAILURE)
-    answer = models.CharField(verbose_name='Ответ почтового сервиса', **NULLABLE)
+    theme = models.ForeignKey(MailingText, verbose_name='Письмо', on_delete=models.SET_NULL, null=True)
+    client = models.ForeignKey(Client, verbose_name='Клиент', on_delete=models.CASCADE, **NULLABLE)
+    mailing_list = models.ForeignKey(Mailing, verbose_name='Рассылки', on_delete=models.CASCADE, **NULLABLE)
+    company = models.ForeignKey(Company, on_delete=models.SET_NULL, verbose_name='компания', **NULLABLE)
+    server_response = models.CharField(verbose_name='Ответ', **NULLABLE)
 
     def __str__(self):
-        return f'Попытка {self.mailing}: {self.status}'
+        return f'Письмо {self.theme} для {self.client}'
 
     class Meta:
-        verbose_name = 'Попытка'
-        verbose_name_plural = 'Попытки'
-        ordering = ('mailing',)
+        verbose_name = 'Письмо'
+        verbose_name_plural = 'Письмо'
