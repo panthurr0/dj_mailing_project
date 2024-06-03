@@ -1,23 +1,44 @@
 from django.contrib import admin
 
-from mailing.models import Client, MailingAttempt, Mailing, MailingText
+from mailing.models import Client, MailingText, Mailing, Status
 
 
 @admin.register(Client)
 class ClientAdmin(admin.ModelAdmin):
-    list_display = ('name', 'email',)
+    list_display = (
+        "pk",
+        "email",
+        "name",
+        "comment",
+    )
 
 
 @admin.register(MailingText)
 class MailingTextAdmin(admin.ModelAdmin):
-    list_display = ('theme',)
+    list_display = (
+        "pk",
+        "theme",
+        "body",
+    )
 
 
 @admin.register(Mailing)
 class MailingAdmin(admin.ModelAdmin):
-    list_display = ('pk', 'theme', 'status',)
+    list_display = (
+        "pk",
+        "start_time",
+        "end_time",
+        "frequency",
+        "answer",
+        "is_active",
+    )
 
 
-@admin.register(MailingAttempt)
-class MailingAttemptAdmin(admin.ModelAdmin):
-    list_display = ('mailing', 'last_attempt', 'status',)
+@admin.register(Status)
+class StatusAdmin(admin.ModelAdmin):
+    list_display = (
+        "pk",
+        "status",
+        "server_response",
+        "last_attempt",
+    )
