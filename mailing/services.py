@@ -19,17 +19,17 @@ def send_mailing(mailing):
     if mailing.start_time <= time_obj <= mailing.end_time:
         try:
             for client in mailing.clients.all():
-                for post in mailing.message.all():
+                for post in mailing.mail.all():
                     result = send_mail(
-                        subject=post.subject,
-                        message=post.text,
+                        subject=post.theme,
+                        message=post.body,
                         from_email=settings.EMAIL_HOST_USER,
-                        recipient_list=[client.contact_email],
+                        recipient_list=[client.email],
                         fail_silently=False,
                     )
                     status = Status.objects.create(
-                        time_attempt=current_datetime,
-                        status_of_last_attempt=bool(result),
+                        last_attempt=current_datetime,
+                        status=bool(result),
                         server_response="OK" if result else "Error",
                         mailing_list=mailing,
                         client=client,
@@ -39,27 +39,26 @@ def send_mailing(mailing):
         except SMTPException as error:
             # Если произошла ошибка при отправке, создаем объект Log с соответствующими данными
             status = Status.objects.create(
-                time_attempt=current_datetime,
-                status_of_last_attempt=False,
+                last_attempt=current_datetime,
+                status=False,
                 server_response=str(error),
                 mailing_list=mailing,
             )
             status.save()
         if mailing.end_time <= time_obj:
-            mailing.status_of_newsletter = DONE
+            mailing.status_of_mailing = DONE
         elif mailing.end_time >= time_obj:
-            mailing.status_of_newsletter = IN_WORK
+            mailing.status_of_mailing = IN_WORK
 
     mailing.save()
-    print(6)
 
 
 def toggle_activity(request, pk):
     mailing = Mailing.objects.get(pk=pk)
-    if mailing.is_active:
-        mailing.is_active = False
+    if mailing.answer:
+        mailing.answer = False
     else:
-        mailing.is_active = True
+        mailing.answer = True
 
     mailing.save()
     return redirect("mailing:mailing_list")

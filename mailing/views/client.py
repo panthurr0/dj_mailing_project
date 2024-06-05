@@ -12,14 +12,14 @@ class ClientListView(LoginRequiredMixin, ListView):
     def get_queryset(self):
         user = self.request.user
 
-        return Client.objects.filter(company=user.user_company)
+        return Client.objects.filter(company=user.company)
 
 
 class ClientCreateView(LoginRequiredMixin, CreateView):
     model = Client
     fields = (
-        "contact_email",
-        "fullname",
+        "email",
+        "name",
         "comment",
     )
     success_url = reverse_lazy("mailing:client_list")
@@ -27,7 +27,7 @@ class ClientCreateView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         user = self.request.user
         form.save(commit=False)
-        form.instance.company = user.user_company
+        form.instance.company = user.company
 
         return super().form_valid(form)
 
@@ -45,7 +45,7 @@ class ClientUpdateView(LoginRequiredMixin, UpdateView):
 
     def dispatch(self, request, *args, **kwargs):
         user = self.request.user
-        if not (user.user_company == self.get_object().company or user.is_superuser):
+        if not (user.company == self.get_object().company or user.is_superuser):
             return HttpResponseForbidden("Go out!")
         else:
             return super().dispatch(request, *args, **kwargs)
@@ -59,7 +59,7 @@ class ClientDeleteView(LoginRequiredMixin, DeleteView):
 
     def dispatch(self, request, *args, **kwargs):
         user = self.request.user
-        if not (user.user_company == self.get_object().company or user.is_superuser):
+        if not (user.company == self.get_object().company or user.is_superuser):
             return HttpResponseForbidden("Go out!")
         else:
             return super().dispatch(request, *args, **kwargs)

@@ -1,11 +1,16 @@
 from django.db import models
-from users.models import Company
+from users.models import Company, User
 
 NULLABLE = {'blank': True, 'null': True}
+
 CREATE = "Создана"
 IN_WORK = "В работе"
 DONE = "Завершена"
 ERROR = "Ошибка отправки"
+
+DAILY = "раз в день"
+WEEKLY = "раз в неделю"
+MONTHLY = "раз в месяц"
 
 
 class Client(models.Model):
@@ -27,6 +32,7 @@ class MailingText(models.Model):
     theme = models.CharField(verbose_name='Тема письма', max_length=150, **NULLABLE)
     body = models.TextField(verbose_name='Тело письма', **NULLABLE)
     clients = models.ManyToManyField(Client, verbose_name='Клиенты для рассылки', blank=True)
+    company = models.ForeignKey(Company, on_delete=models.SET_NULL, verbose_name="Компания", null=True, blank=True)
 
     def __str__(self):
         return f'{self.theme}'
@@ -38,11 +44,6 @@ class MailingText(models.Model):
 
 
 class Mailing(models.Model):
-
-    DAILY = "раз в день"
-    WEEKLY = "раз в неделю"
-    MONTHLY = "раз в месяц"
-
     FREQUENCY_CHOICES = [
         (DAILY, "Ежедневно"),
         (WEEKLY, "Еженедельно"),
@@ -50,20 +51,21 @@ class Mailing(models.Model):
     ]
     STATUS_OF_MAILING = [
         (CREATE, "Создана"),
-        (IN_WORK, "Запущена"),
+        (IN_WORK, "В работе"),
         (DONE, "Завершена"),
         (ERROR, "Ошибка отправки"),
     ]
 
     start_time = models.DateTimeField(verbose_name='Время старта рассылки', **NULLABLE)
     end_time = models.DateTimeField(verbose_name='Время конца рассылки', **NULLABLE)
-    frequency = models.CharField(verbose_name='Частота отправки', max_length=150, choices=FREQUENCY_CHOICES, default=MONTHLY)
-    is_active = models.CharField(verbose_name='Состояние рассылки', choices=STATUS_OF_MAILING, default=CREATE)
+    frequency = models.CharField(verbose_name='Частота отправки', max_length=150, choices=FREQUENCY_CHOICES,
+                                 default=MONTHLY)
+    status_of_mailing = models.CharField(verbose_name='Состояние рассылки', choices=STATUS_OF_MAILING, default=CREATE)
 
     answer = models.BooleanField(verbose_name='Статус попытки', default=True)
     clients = models.ManyToManyField(Client, verbose_name="Клиенты")
     company = models.ForeignKey(Company, on_delete=models.SET_NULL, verbose_name='компания', **NULLABLE)
-
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Владелец', **NULLABLE)
     mail = models.ManyToManyField(MailingText, verbose_name="Сообщение для отправки")
 
     class Meta:

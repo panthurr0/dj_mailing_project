@@ -1,0 +1,40 @@
+{% extends 'mailing/base.html' %}
+{% block content %}
+<div class="container">
+    <div class="pricing-header px-3 py-3 pt-md-1 pb-md-2 mx-auto text-center">
+        <h1 class="display-4">Создание текста для рассылки</h1>
+    </div>
+    <main>
+        <div class="album py-2 bg-body-tertiary">
+            <div class="row justify-content-center">
+                <div class="col-md-4">
+                    <form method="post" enctype="multipart/form-data">
+                        <div class="card shadow-md">
+                            <div class="card-body">
+                                {% csrf_token %}
+                                {{ form.media }}
+                                <div class="mb-3">
+                                    {{ form.as_p }}
+                                </div>
+                            </div>
+                            <div class="card-footer d-flex justify-content-center">
+                                <button type="submit" class="btn btn-success me-2">
+                                    {% if object %}
+                                    Изменить
+                                    {% else %}
+                                    Создать
+                                    {% endif %}
+                                </button>
+                                <a class="btn btn-secondary ms-2"
+                                   href="{% url 'mailing:client_list' %}">
+                                    Отменить
+                                </a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+{% endblock %}

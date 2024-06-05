@@ -1,0 +1,61 @@
+{% extends 'mailing/base.html' %}
+{% block content %}
+<div class="pricing-header px-3 py-3 pt-md-1 pb-md-2 mx-auto text-center">
+    <h1 class="display-4">Настройка рассылок
+        {% if not perms.mailing.can_disable_mailing or user.is_superuser %}
+        <div class="float-end">
+            <a type="button" class="btn btn-lg btn-block btn-outline-success"
+               href="{% url 'mailing:mailing_form' %}">
+                Создать
+            </a>
+        </div>
+        {% endif %}
+    </h1>
+</div>
+<main>
+    <div class="album py-4 bg-body-tertiary">
+        <div class="container text-start">
+            {% for news in object_list %}
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        Статус рассылки: {{ news.status_of_mailing }}
+                    </h5>
+                    <p class="card-text">
+                        {{ news.message.subject }}
+                    <p>{{ news.frequency }}</p>
+                    <p>{{ news.status_of_mailing }}</p>
+                    <a type="button" class="btn btn-sm btn-block btn-outline-primary"
+                       href="{% url 'mailing:mailing_detail' news.pk %}">
+                        Посмотреть
+                    </a>
+                    {% if perms.mailing.can_disable_mailing %}
+                    {% if not news.is_active %}
+                    <a type="button" class="btn btn-sm btn-block btn-outline-warning"
+                       href="{% url 'mailing:toggle_activity' news.pk %}">
+                        Неактивна
+                    </a>
+                    {% else %}
+                    <a type="button" class="btn btn-sm btn-block btn-outline-success"
+                       href="{% url 'mailing:toggle_activity' news.pk %}">
+                        Активна
+                    </a>
+                    {% endif %}
+                    {% endif %}
+                    {% if perms.mailing.can_change_mailing_list %}
+                    <a type="button" class="btn btn-sm btn-block btn-outline-primary"
+                       href="{% url 'mailing:mailing_update' news.pk %}">
+                        Изменить
+                    </a>
+                    <a type="button" class="btn btn-sm btn-block btn-outline-danger"
+                       href="{% url 'mailing:mailing_delete' news.pk %}">
+                        Удалить
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</main>
+{% endblock %}

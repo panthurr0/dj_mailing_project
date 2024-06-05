@@ -1,0 +1,39 @@
+{% extends 'mailing/base.html' %}
+{% block content %}
+<div class="pricing-header px-3 py-3 pt-md-1 pb-md-2 mx-auto text-center">
+    <h1 class="display-4">Список клиентов
+        <div class="float-end">
+            <a type="button" class="btn btn-lg btn-block btn-outline-success"
+               href="{% url 'mailing:client_form' %}">
+                Создать
+            </a>
+        </div>
+    </h1>
+</div>
+<main>
+    <div class="album py-4 bg-body-tertiary">
+        <div class="container text-start">
+            {% for client in object_list %}
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        {{ client.name }}
+                    </h5>
+                    <p class="card-text">
+                        {{ client.mail }}
+                    <p>{{ client.comment }}</p>
+                    <a type="button" class="btn btn-sm btn-block btn-outline-primary"
+                       href="{% url 'mailing:client_update' client.pk %}">
+                        Изменить
+                    </a>
+                    <a type="button" class="btn btn-sm btn-block btn-outline-danger"
+                       href="{% url 'mailing:client_delete' client.pk %}">
+                        Удалить
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</main>
+{% endblock %}

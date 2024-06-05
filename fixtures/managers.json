@@ -1,0 +1,24 @@
+[
+  {
+    "model": "users.user",
+    "pk": 18,
+    "fields": {
+      "password": "scrypt$16384$iVamF7BzAEIl5rPrjAdQUX$8$1$PMjGqjfeiqmHQHpSO6BqkRZdDRkDcacsfTXRluuoSWuZ7mFliWLyIU5n0WjwB7/gODmLmxvrRoOxwEuzNI7urg==",
+      "last_login": "2024-05-31T13:37:51.193Z",
+      "is_superuser": false,
+      "first_name": "",
+      "last_name": "",
+      "is_staff": true,
+      "date_joined": "2024-05-31T11:38:21.234Z",
+      "mail": "manager@companny.ru",
+      "company": 2,
+      "token": null,
+      "is_active": true,
+      "avatar": "",
+      "groups": [
+        15
+      ],
+      "user_permissions": []
+    }
+  }
+]

@@ -1,0 +1,43 @@
+{% extends "mailing/base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h2>Детали рассылки</h2>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Начало: {{ mailing.start_time }}</h5>
+                    <h5 class="card-title">Окончание: {{ mailing.end_time }}</h5>
+                    <h5 class="card-title">Частота: {{ mailing.frequency }}</h5>
+                    <h5 class="card-title">Статус: {{ mailing.status_of_mailing }}</h5>
+                    <h5 class="card-title">Активна: {{ mailing.is_active|yesno:"Да,Нет" }}</h5>
+
+                    <hr>
+                    {% if not user.is_staff %}
+                    <h5>Клиенты:</h5>
+                    <ul class="list-group mb-3">
+                        {% for clients in mailing.clients.all %}
+                        <li class="list-group-item">{{ clients }}</li>
+                        {% endfor %}
+                    </ul>
+                    <hr>
+                    <h5>Сообщения:</h5>
+                    <ul class="list-group mb-3">
+                        {% for messages in mailing.message.all %}
+                        <li class="list-group-item">{{ messages }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                </div>
+
+                <div class="card-footer">
+                    <a href="{% url 'mailing:mailing_list' %}" class="btn btn-primary">Назад к списку рассылок</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
