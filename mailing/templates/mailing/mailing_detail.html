@@ -26,7 +26,7 @@
                     <hr>
                     <h5>Сообщения:</h5>
                     <ul class="list-group mb-3">
-                        {% for messages in mailing.message.all %}
+                        {% for messages in mailing.mail.all %}
                         <li class="list-group-item">{{ messages }}</li>
                         {% endfor %}
                     </ul>

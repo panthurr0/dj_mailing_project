@@ -30,11 +30,8 @@ class MailingDetailView(LoginRequiredMixin, DetailView):
     def get_object(self, queryset=None):
         obj = super().get_object(queryset)
         user = self.request.user
-        if (
-                user.is_superuser
-                or (obj.clients.filter(company=user.company).exists())
-                or user.is_staff
-        ):
+        if (user.is_superuser or (obj.clients.filter(company=user.company).exists())
+                or user.is_staff):
             return obj
         else:
             raise Http404("You do not have permission to view this mailing.")
