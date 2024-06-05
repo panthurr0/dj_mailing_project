@@ -61,6 +61,7 @@ class MailingCreateView(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         mailing = form.save(commit=False)
+        mailing.owner = self.request.user
 
         selected_clients = form.cleaned_data.get("clients")
         selected_mails = form.cleaned_data.get("mail")
