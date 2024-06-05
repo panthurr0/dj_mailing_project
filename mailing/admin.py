@@ -38,7 +38,7 @@ class MailingAdmin(admin.ModelAdmin):
 class StatusAdmin(admin.ModelAdmin):
     list_display = (
         "pk",
-        "status",
+        "last_attempt_status",
         "server_response",
         "last_attempt",
     )

@@ -29,7 +29,7 @@ def send_mailing(mailing):
                     )
                     status = Status.objects.create(
                         last_attempt=current_datetime,
-                        status=bool(result),
+                        last_attempt_status=bool(result),
                         server_response="OK" if result else "Error",
                         mailing_list=mailing,
                         client=client,
@@ -40,7 +40,7 @@ def send_mailing(mailing):
             # Если произошла ошибка при отправке, создаем объект Log с соответствующими данными
             status = Status.objects.create(
                 last_attempt=current_datetime,
-                status=False,
+                last_attempt_status=False,
                 server_response=str(error),
                 mailing_list=mailing,
             )

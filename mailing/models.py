@@ -75,7 +75,7 @@ class Mailing(models.Model):
 
 class Status(models.Model):
     last_attempt = models.DateTimeField(verbose_name='Дата и время первой рассылки', auto_now=True, **NULLABLE)
-    status = models.BooleanField(verbose_name='Статус последней попытки', max_length=75, **NULLABLE)
+    last_attempt_status = models.BooleanField(verbose_name='Статус последней попытки', max_length=75, **NULLABLE)
 
     theme = models.ForeignKey(MailingText, verbose_name='Письмо', on_delete=models.SET_NULL, null=True)
     client = models.ForeignKey(Client, verbose_name='Клиент', on_delete=models.CASCADE, **NULLABLE)
