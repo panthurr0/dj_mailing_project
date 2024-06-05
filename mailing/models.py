@@ -83,7 +83,7 @@ class Mailing(models.Model):
         verbose_name = 'Рассылка'
         verbose_name_plural = 'Рассылки'
         permissions = [
-            ("can_view_all_mailing", "Может видеть все рассылки"),
+            ("can_view_mailing", "Может видеть все рассылки"),
             ("can_disable_mailing", "Может отключать рассылки"),
             ("cannot_change_mailing", "Не может изменять рассылки"),
             ("cannot_delete_mailing", "Не может удалять рассылки"),

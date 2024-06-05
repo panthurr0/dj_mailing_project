@@ -11,23 +11,16 @@ from mailing.services import send_mailing
 
 class MailingListView(LoginRequiredMixin, ListView):
     model = Mailing
-    permission_required = "mailing.can_view_all_mailings"
     success_url = reverse_lazy("mailing:mailing_list")
 
     def get_queryset(self):
         user = self.request.user
-        company = user.company
 
-        if user.has_perm("mailing.can_view_all_mailings") or user.is_superuser:
+        if user.has_perm('mailing.can_view_mailing') or user.is_superuser:
             return Mailing.objects.all()
 
         else:
-            mailings = (
-                Mailing.objects.filter(clients__company=company)
-                .prefetch_related("clients__company", "mail")
-                .distinct()
-            )
-            return mailings
+            return Mailing.objects.filter(owner=user)
 
 
 class MailingDetailView(LoginRequiredMixin, DetailView):
