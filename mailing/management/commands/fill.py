@@ -60,24 +60,24 @@ class Command(BaseCommand):
 
         for mailing in Command.json_read(DATA_MAILING):
             mailing_fields = mailing.get('fields')
-            mailing_for_create.append(
-                Mailing(start_time=mailing_fields.get('start_time'),
-                        end_time=mailing_fields.get('end_time'),
-                        frequency=mailing_fields.get('frequency'),
-                        status_of_mailing=mailing_fields.get('status_of_mailing'),
-                        is_active=mailing_fields.get('is_active'),
-                        owner=User.objects.get(pk=mailing_fields.get('owner')),
-                        clients=Client.objects.filter(pk__in=mailing_fields.get('clients')),
-                        mail=MailingText.objects.filter(pk__in=mailing_fields.get('mail')),)
+            clients_ids = mailing_fields.get('clients')
+            clients = Client.objects.filter(pk__in=clients_ids)
+            mailing_instance = Mailing.objects.create(
+                start_time=mailing_fields.get('start_time'),
+                end_time=mailing_fields.get('end_time'),
+                frequency=mailing_fields.get('frequency'),
+                status_of_mailing=mailing_fields.get('status_of_mailing'),
+                is_active=mailing_fields.get('is_active')
             )
-        Mailing.objects.bulk_create(mailing_for_create)
+
+            mailing_instance.clients.set(clients)
 
         for status in Command.json_read(DATA_STATUS):
             status_fields = status.get('fields')
             status_for_create.append(
                 Status(last_attempt=status_fields.get('last_attempt'),
                        last_attempt_status=status_fields.get('last_attempt_status'),
-                       client=User.objects.get(pk=status_fields.get('client')),
+                       client=Client.objects.get(pk=status_fields.get('client')),
                        mailing_list=Mailing.objects.get(pk=status_fields.get('mailing_list')),
                        server_response=status_fields.get('server_response'))
             )
