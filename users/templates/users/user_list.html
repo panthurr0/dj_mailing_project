@@ -31,13 +31,13 @@
                          {{ user.email }}
                     </h5>
                     <p class="card-text">
-                    <p>{{ use.company }}</p>
+                    <p>{{ user.company }}</p>
                     <p>{{ user.avatar }}</p>
                     <a type="button" class="btn btn-sm btn-block btn-outline-warning"
                        href="{% url 'users:user_detail' user.pk %}">
                         Посмотреть
                     </a>
-                    {% if perms.users.can_block %}
+                    {% if perms.users.can_change_user %}
                     {% if not user.is_active %}
                     <a type="button" class="btn btn-sm btn-block btn-outline-warning"
                        href="{% url 'users:toggle_activity' user.pk %}">

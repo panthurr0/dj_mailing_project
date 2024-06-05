@@ -26,12 +26,6 @@ class Client(models.Model):
         verbose_name = 'Клиент'
         verbose_name_plural = 'Клиенты'
         ordering = ('name',)
-        permissions = [
-            (
-                "can_view_client_list",
-                "Может просматривать пользователей сервиса",
-            ),
-        ]
 
 
 class MailingText(models.Model):
@@ -84,10 +78,6 @@ class Mailing(models.Model):
         verbose_name_plural = 'Рассылки'
         permissions = [
             ("can_view_mailing", "Может видеть все рассылки"),
-            ("can_disable_mailing", "Может отключать рассылки"),
-            ("cannot_change_mailing", "Не может изменять рассылки"),
-            ("cannot_delete_mailing", "Не может удалять рассылки"),
-            ("cannot_create_mailing", "Не может создавать рассылки"),
         ]
 
 

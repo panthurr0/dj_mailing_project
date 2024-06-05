@@ -63,7 +63,7 @@ class UserListView(UserPassesTestMixin, ListView):
     success_url = reverse_lazy("users:user_list")
 
     def test_func(self):
-        return self.request.user.is_superuser
+        return self.request.user.is_superuser or self.request.user.has_perm('users.can_view_user')
 
 
 class UserDetailView(UserPassesTestMixin, DetailView):
