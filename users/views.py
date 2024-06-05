@@ -1,25 +1,66 @@
-from django.contrib.auth.views import LoginView as BaseLoginView
-from django.contrib.auth.views import LogoutView as BaseLogoutView
+import secrets
+
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.mail import send_mail
 from django.urls import reverse_lazy
-from django.views.generic import CreateView
+from django.views.generic import CreateView, FormView, ListView, DetailView
 
-from users.forms import RegisterForm
-
-
-class LoginView(BaseLoginView):
-    template_name = 'users/login.html'
-
-    def get_default_redirect_url(self):
-        if self.request.GET.get('next'):
-            self.next_page = self.request.GET.get('next')
-        return super().get_default_redirect_url()
+from config.settings import DEFAULT_FROM_EMAIL
+from users.forms import UserRegisterForm
+from users.models import User
 
 
-class LogoutView(BaseLogoutView):
-    pass
+class UserCreateView(CreateView):
+    model = User
+    form_class = UserRegisterForm
+    success_url = reverse_lazy("mailing:home")
+
+    def form_valid(self, form):
+        user = form.save(commit=False)
+        user.token = secrets.token_hex(7)
+        user.save()
+
+        host = self.request.get_host()
+        url = f"http://{host}/users/confirm-register/{user.token}/"
+
+        send_mail(
+            subject="Hi! You need to confirm your registrations",
+            message=f"Click here if it was you: {url}",
+            from_email=DEFAULT_FROM_EMAIL,
+            recipient_list=[user.email],
+        )
+
+        return super().form_valid(form)
 
 
-class RegisterView(CreateView):
-    form_class = RegisterForm
-    template_name = 'users/register.html'
-    success_url = reverse_lazy('mailing:list')
+class PasswortResetView(FormView):
+    model = User
+    template_name = "passwort_reset_view.html"
+    success_url = reverse_lazy("users:login")
+
+    def form_valid(self, form):
+        email_form = form.cleaned_data("email")
+        user = User.objects.get(email=email_form)
+
+        new_password = User.objects.make_random_password()
+        user.set_password(new_password)
+        user.save()
+        send_mail(
+            subject="New password",
+            message=f"Here: {new_password}",
+            from_email=DEFAULT_FROM_EMAIL,
+            recipient_list=[user.email],
+        )
+        return super().form_valid(form)
+
+
+class UserListView(LoginRequiredMixin, ListView):
+    model = User
+    template_name = 'users/user_list.html'
+    context_object_name = 'users'
+    success_url = reverse_lazy("users:user_list")
+
+
+class UserDetailView(LoginRequiredMixin, DetailView):
+    model = User
+    success_url = reverse_lazy("users:user_detail")

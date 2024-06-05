@@ -30,7 +30,7 @@ class MailingAdmin(admin.ModelAdmin):
         "end_time",
         "frequency",
         "answer",
-        "is_active",
+        "status_of_mailing",
     )
 
 
