@@ -10,7 +10,7 @@
       "last_name": "",
       "is_staff": true,
       "date_joined": "2024-05-31T11:38:21.234Z",
-      "mail": "manager@companny.ru",
+      "email": "manager@companny.ru",
       "company": 2,
       "token": null,
       "is_active": true,
