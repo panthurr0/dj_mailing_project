@@ -1,47 +1,18 @@
 [
   {
     "model": "auth.group",
-    "pk": 15,
+    "pk": 1,
     "fields": {
-      "name": "managers",
+      "name": "Manager",
       "permissions": [
-        55,
-        77,
-        79,
-        78,
-        56,
-        75,
-        32,
-        53,
-        27,
-        76,
-        80
-      ]
-    }
-  },
-  {
-    "model": "auth.group",
-    "pk": 16,
-    "fields": {
-      "name": "ourusers",
-      "permissions": [
-        21,
-        22,
-        23,
-        24,
-        29,
-        67,
-        71,
-        30,
-        31,
-        32,
-        25,
-        60,
-        26,
-        27,
         28,
-        73,
-        72
+        52,
+        33,
+        32,
+        37,
+        47,
+        45,
+        46
       ]
     }
   }
