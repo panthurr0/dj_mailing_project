@@ -1,6 +1,7 @@
 import secrets
 
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.forms import PasswordResetForm
+from django.contrib.auth.mixins import UserPassesTestMixin
 from django.core.mail import send_mail
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, FormView, ListView, DetailView
@@ -33,13 +34,14 @@ class UserCreateView(CreateView):
         return super().form_valid(form)
 
 
-class PasswortResetView(FormView):
+class UserPasswordResetView(FormView):
     model = User
-    template_name = "passwort_reset_view.html"
+    template_name = "users/password_reset.html"
+    form_class = PasswordResetForm
     success_url = reverse_lazy("users:login")
 
     def form_valid(self, form):
-        email_form = form.cleaned_data("email")
+        email_form = form.cleaned_data["email"]
         user = User.objects.get(email=email_form)
 
         new_password = User.objects.make_random_password()

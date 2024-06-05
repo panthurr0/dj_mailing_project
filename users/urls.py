@@ -4,9 +4,8 @@ from django.urls import path
 
 from config import settings
 from users.apps import UsersConfig
-from users.forms import UserRegisterForm
 from users.services import email_verification, toggle_activity
-from users.views import UserCreateView, PasswortResetView, UserListView, UserDetailView
+from users.views import UserCreateView, UserPasswordResetView, UserListView, UserDetailView
 
 app_name = UsersConfig.name
 
@@ -14,7 +13,7 @@ urlpatterns = [
     path("login/", LoginView.as_view(template_name="users/login.html"), name="login"),
     path("logout/", LogoutView.as_view(), name="logout"),
     path("register/", UserCreateView.as_view(), name="register"),
-    path("passwort_reset_view/",PasswortResetView.as_view(form_class=UserRegisterForm),name="passwort_reset"),
+    path("password_reset", UserPasswordResetView.as_view(), name="password_reset"),
     path("confirm-register/<str:token>/", email_verification, name="confirm-register"),
     path("user_list/", UserListView.as_view(), name="user_list"),
     path("user_detail/<int:pk>", UserDetailView.as_view(), name="user_detail"),

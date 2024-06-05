@@ -33,6 +33,7 @@ class Client(models.Model):
             ),
         ]
 
+
 class MailingText(models.Model):
     theme = models.CharField(verbose_name='Тема письма', max_length=150, **NULLABLE)
     body = models.TextField(verbose_name='Тело письма', **NULLABLE)
