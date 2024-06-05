@@ -87,5 +87,5 @@ class Status(models.Model):
         return f'Письмо {self.theme} для {self.client}'
 
     class Meta:
-        verbose_name = 'Письмо'
-        verbose_name_plural = 'Письмо'
+        verbose_name = 'Конфиг_письма'
+        verbose_name_plural = 'Конфиг_письма'
