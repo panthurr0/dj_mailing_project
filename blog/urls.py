@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.conf.urls.static import static
 from django.urls import path
+from django.views.decorators.cache import cache_page
 
 from blog.apps import BlogConfig
 from blog.views import (
@@ -15,7 +16,7 @@ app_name = BlogConfig.name
 
 
 urlpatterns = [
-    path("blog_list/", BlogListView.as_view(), name="blog_list"),
+    path("blog_list/", cache_page(60)(BlogListView.as_view()), name="blog_list"),
     path("blog_form/", BlogCreateView.as_view(), name="blog_form"),
     path("<int:pk>/blog_update/", BlogUpdateView.as_view(), name="blog_update"),
     path("<int:pk>/blog_delete/", BlogDeleteView.as_view(), name="blog_delete"),
