@@ -16,14 +16,14 @@ class HomeView(ListView):
         queryset = self.get_queryset()
         mailings = queryset.filter()
 
-        mailing_done_count = mailings.filter(status_of_mailing=DONE).count()
-        mailing_active = mailings.filter(status_of_mailing=IN_WORK).count()
+        mailings_done_count = mailings.filter(status_of_mailing=DONE).count()
+        mailings_active = mailings.filter(status_of_mailing=IN_WORK).count()
         unique_clients = (
             mailings.prefetch_related("clients").distinct().count()
         )
 
-        context["mailing_done_count"] = mailing_done_count
-        context["mailing_active"] = mailing_active
+        context["mailings_done_count"] = mailings_done_count
+        context["mailings_active"] = mailings_active
         context["unique_clients"] = unique_clients
 
         blog_pks = list(Blog.objects.values_list("pk", flat=True))
