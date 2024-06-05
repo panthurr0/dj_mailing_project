@@ -41,10 +41,7 @@ class MailingText(models.Model):
         verbose_name = 'Сообщение'
         verbose_name_plural = 'Сообщения'
         permissions = [
-            (
-                "can_change_mailingtext_list",
-                "Может изменять текст для рассылок",
-            ),
+            ("can_change_mailingtext_list", "Может изменять текст для рассылок"),
         ]
 
 
@@ -78,6 +75,7 @@ class Mailing(models.Model):
         verbose_name_plural = 'Рассылки'
         permissions = [
             ("can_view_mailing", "Может видеть все рассылки"),
+            ("can_disable_mailing", "Может менять статус рассылки"),
         ]
 
 
