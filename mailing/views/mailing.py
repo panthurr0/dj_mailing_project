@@ -63,9 +63,7 @@ class MailingCreateView(LoginRequiredMixin, CreateView):
         company = user.company
 
         form.fields["clients"].queryset = Client.objects.filter(company=company)
-        form.fields["mail"].queryset = MailingText.objects.filter(
-            company=company
-        )
+        form.fields["mail"].queryset = MailingText.objects.filter(company=company)
         return form
 
     def form_valid(self, form):
