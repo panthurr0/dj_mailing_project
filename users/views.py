@@ -1,6 +1,6 @@
 import secrets
 
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.core.mail import send_mail
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, FormView, ListView, DetailView
@@ -10,7 +10,7 @@ from users.forms import UserRegisterForm
 from users.models import User
 
 
-class UserCreateView(CreateView):
+class UserCreateView(UserPassesTestMixin, CreateView):
     model = User
     form_class = UserRegisterForm
     success_url = reverse_lazy("mailing:home")
@@ -54,13 +54,19 @@ class PasswortResetView(FormView):
         return super().form_valid(form)
 
 
-class UserListView(LoginRequiredMixin, ListView):
+class UserListView(UserPassesTestMixin, ListView):
     model = User
     template_name = 'users/user_list.html'
     context_object_name = 'users'
     success_url = reverse_lazy("users:user_list")
 
+    def test_func(self):
+        return self.request.user.has_perm('blog.delete_blog')
 
-class UserDetailView(LoginRequiredMixin, DetailView):
+
+class UserDetailView(UserPassesTestMixin, DetailView):
     model = User
     success_url = reverse_lazy("users:user_detail")
+
+    def test_func(self):
+        return self.request.user.has_perm('blog.delete_blog')
