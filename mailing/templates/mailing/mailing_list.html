@@ -24,7 +24,7 @@
                     <p class="card-text">
                         {{ news.message.subject }}
                     <p>{{ news.frequency }}</p>
-                    <p>{{ news.status_of_mailing }}</p>
+                    <p>{{ news.theme }}</p>
                     <a type="button" class="btn btn-sm btn-block btn-outline-primary"
                        href="{% url 'mailing:mailing_detail' news.pk %}">
                         Посмотреть
