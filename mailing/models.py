@@ -19,6 +19,8 @@ class Client(models.Model):
     comment = models.TextField(verbose_name='Комментарий', **NULLABLE)
     company = models.ForeignKey(Company, on_delete=models.SET_NULL, verbose_name='компания', **NULLABLE)
 
+    is_active = models.BooleanField(verbose_name='Статус пользователя', default=False)
+
     def __str__(self):
         return f'{self.name}'
 
@@ -40,7 +42,12 @@ class MailingText(models.Model):
     class Meta:
         verbose_name = 'Сообщение'
         verbose_name_plural = 'Сообщения'
-        ordering = ('theme',)
+        permissions = [
+            (
+                "cann_change_textfornewsletter_list",
+                "Может изменять текст для рассылок",
+            ),
+        ]
 
 
 class Mailing(models.Model):
@@ -62,7 +69,7 @@ class Mailing(models.Model):
                                  default=MONTHLY)
     status_of_mailing = models.CharField(verbose_name='Состояние рассылки', choices=STATUS_OF_MAILING, default=CREATE)
 
-    answer = models.BooleanField(verbose_name='Статус попытки', default=True)
+    is_active = models.BooleanField(verbose_name='Статус попытки', default=True)
     clients = models.ManyToManyField(Client, verbose_name="Клиенты")
     company = models.ForeignKey(Company, on_delete=models.SET_NULL, verbose_name='компания', **NULLABLE)
     owner = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Владелец', **NULLABLE)
@@ -71,6 +78,13 @@ class Mailing(models.Model):
     class Meta:
         verbose_name = 'Рассылка'
         verbose_name_plural = 'Рассылки'
+        permissions = [
+            ("can_view_all_newsletter", "Может видеть все рассылки"),
+            ("can_disable_newsletter", "Может отключать рассылки"),
+            ("cannot_change_newsletter", "Не может изменять рассылки"),
+            ("cannot_delete_newsletter", "Не может удалять рассылки"),
+            ("cannot_create_newsletter", "Не может создавать рассылки"),
+        ]
 
 
 class Status(models.Model):

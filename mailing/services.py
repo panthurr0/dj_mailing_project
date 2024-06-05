@@ -55,10 +55,10 @@ def send_mailing(mailing):
 
 def toggle_activity(request, pk):
     mailing = Mailing.objects.get(pk=pk)
-    if mailing.answer:
-        mailing.answer = False
+    if mailing.is_active:
+        mailing.is_active = False
     else:
-        mailing.answer = True
+        mailing.is_active = True
 
     mailing.save()
     return redirect("mailing:mailing_list")
