@@ -1,1 +1,64 @@
-[{"model": "users.user", "pk": 1, "fields": {"password": "pbkdf2_sha256$720000$nBsp5ApU9WVeGpgsP8daOj$wKYULEzjn26ZgoHvVT4uWGZOEzsPpwhGohdpl8GAvow=", "last_login": "2024-06-05T19:11:20.405Z", "is_superuser": true, "first_name": "", "last_name": "", "is_staff": true, "date_joined": "2024-06-05T19:10:19.010Z", "email": "bla@mail.ru", "company": null, "token": null, "is_active": true, "avatar": "", "groups": [], "user_permissions": []}}, {"model": "users.user", "pk": 2, "fields": {"password": "pbkdf2_sha256$720000$TqYFf5q5AFy94v8oj4rv8I$ZHlmxcRKCFtVxFTGQrl6ozZ9Xw3TRnojz65CDOcwaJI=", "last_login": "2024-06-05T19:20:55.658Z", "is_superuser": false, "first_name": "default", "last_name": "user", "is_staff": false, "date_joined": "2024-06-05T19:11:40Z", "email": "jendoc@inbox.ru", "company": null, "token": null, "is_active": true, "avatar": "", "groups": [], "user_permissions": []}}, {"model": "users.user", "pk": 3, "fields": {"password": "pbkdf2_sha256$720000$KHmN0V6gjGaaQ8AwLRZafF$MBK7DIKcHuhFT7Zg4He/d9CJbVXkiG3b2IdHWaDNkXM=", "last_login": "2024-06-05T19:17:36.762Z", "is_superuser": false, "first_name": "", "last_name": "", "is_staff": false, "date_joined": "2024-06-05T19:12:34Z", "email": "olapopaola@mail.ru", "company": null, "token": null, "is_active": true, "avatar": "", "groups": [1], "user_permissions": []}}]
+[
+  {
+    "model": "users.user",
+    "pk": 1,
+    "fields": {
+      "password": "pbkdf2_sha256$720000$nBsp5ApU9WVeGpgsP8daOj$wKYULEzjn26ZgoHvVT4uWGZOEzsPpwhGohdpl8GAvow=",
+      "last_login": "2024-06-05T19:11:20.405Z",
+      "is_superuser": true,
+      "first_name": "",
+      "last_name": "",
+      "is_staff": true,
+      "date_joined": "2024-06-05T19:10:19.010Z",
+      "email": "bla@mail.ru",
+      "company": null,
+      "token": null,
+      "is_active": true,
+      "avatar": "",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "users.user",
+    "pk": 2,
+    "fields": {
+      "password": "pbkdf2_sha256$720000$TqYFf5q5AFy94v8oj4rv8I$ZHlmxcRKCFtVxFTGQrl6ozZ9Xw3TRnojz65CDOcwaJI=",
+      "last_login": "2024-06-05T19:20:55.658Z",
+      "is_superuser": false,
+      "first_name": "default",
+      "last_name": "user",
+      "is_staff": false,
+      "date_joined": "2024-06-05T19:11:40Z",
+      "email": "jendoc@inbox.ru",
+      "company": null,
+      "token": null,
+      "is_active": true,
+      "avatar": "",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "users.user",
+    "pk": 3,
+    "fields": {
+      "password": "pbkdf2_sha256$720000$KHmN0V6gjGaaQ8AwLRZafF$MBK7DIKcHuhFT7Zg4He/d9CJbVXkiG3b2IdHWaDNkXM=",
+      "last_login": "2024-06-05T19:17:36.762Z",
+      "is_superuser": false,
+      "first_name": "",
+      "last_name": "",
+      "is_staff": false,
+      "date_joined": "2024-06-05T19:12:34Z",
+      "email": "olapopaola@mail.ru",
+      "company": null,
+      "token": null,
+      "is_active": true,
+      "avatar": "",
+      "groups": [
+        1
+      ],
+      "user_permissions": []
+    }
+  }
+]

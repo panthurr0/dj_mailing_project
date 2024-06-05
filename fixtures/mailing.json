@@ -1,1 +1,40 @@
-[{"model": "mailing.mailing", "pk": 1, "fields": {"start_time": "2024-06-05T19:23:21Z", "end_time": "2024-06-29T19:23:23Z", "frequency": "раз в день", "status_of_mailing": "В работе", "is_active": true, "company": null, "owner": 2, "clients": [1], "mail": [1]}}, {"model": "mailing.mailing", "pk": 2, "fields": {"start_time": "2024-06-05T19:38:35Z", "end_time": "2024-06-27T19:38:37Z", "frequency": "раз в день", "status_of_mailing": "В работе", "is_active": true, "company": null, "owner": 1, "clients": [2], "mail": [2]}}]
+[
+  {
+    "model": "mailing.mailing",
+    "pk": 1,
+    "fields": {
+      "start_time": "2024-06-05T19:23:21Z",
+      "end_time": "2024-06-29T19:23:23Z",
+      "frequency": "раз в день",
+      "status_of_mailing": "В работе",
+      "is_active": true,
+      "company": null,
+      "owner": 2,
+      "clients": [
+        1
+      ],
+      "mail": [
+        1
+      ]
+    }
+  },
+  {
+    "model": "mailing.mailing",
+    "pk": 2,
+    "fields": {
+      "start_time": "2024-06-05T19:38:35Z",
+      "end_time": "2024-06-27T19:38:37Z",
+      "frequency": "раз в день",
+      "status_of_mailing": "В работе",
+      "is_active": true,
+      "company": null,
+      "owner": 1,
+      "clients": [
+        2
+      ],
+      "mail": [
+        2
+      ]
+    }
+  }
+]

@@ -1,1 +1,28 @@
-[{"model": "mailing.status", "pk": 1, "fields": {"last_attempt": "2024-06-05T19:23:32.696Z", "last_attempt_status": true, "theme": null, "client": 1, "mailing_list": 1, "company": null, "server_response": "OK"}}, {"model": "mailing.status", "pk": 2, "fields": {"last_attempt": "2024-06-05T19:38:50.360Z", "last_attempt_status": true, "theme": null, "client": 2, "mailing_list": 2, "company": null, "server_response": "OK"}}]
+[
+  {
+    "model": "mailing.status",
+    "pk": 1,
+    "fields": {
+      "last_attempt": "2024-06-05T19:23:32.696Z",
+      "last_attempt_status": true,
+      "theme": null,
+      "client": 1,
+      "mailing_list": 1,
+      "company": null,
+      "server_response": "OK"
+    }
+  },
+  {
+    "model": "mailing.status",
+    "pk": 2,
+    "fields": {
+      "last_attempt": "2024-06-05T19:38:50.360Z",
+      "last_attempt_status": true,
+      "theme": null,
+      "client": 2,
+      "mailing_list": 2,
+      "company": null,
+      "server_response": "OK"
+    }
+  }
+]

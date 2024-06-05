@@ -1,0 +1,22 @@
+[
+  {
+    "model": "mailing.client",
+    "pk": 1,
+    "fields": {
+      "name": "Ivanov Ivan Ivanovich",
+      "email": "jendoc@inbox.ru",
+      "comment": "Russia",
+      "company": null
+    }
+  },
+  {
+    "model": "mailing.client",
+    "pk": 2,
+    "fields": {
+      "name": "testsu",
+      "email": "testsu@mail.ru",
+      "comment": "test",
+      "company": null
+    }
+  }
+]

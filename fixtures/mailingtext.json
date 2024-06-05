@@ -1,1 +1,22 @@
-[{"model": "mailing.mailingtext", "pk": 1, "fields": {"theme": "Уведомление", "body": "Хорошего дня!", "company": null, "clients": []}}, {"model": "mailing.mailingtext", "pk": 2, "fields": {"theme": "TestSuperUser", "body": "Test", "company": null, "clients": []}}]
+[
+  {
+    "model": "mailing.mailingtext",
+    "pk": 1,
+    "fields": {
+      "theme": "Уведомление",
+      "body": "Хорошего дня!",
+      "company": null,
+      "clients": []
+    }
+  },
+  {
+    "model": "mailing.mailingtext",
+    "pk": 2,
+    "fields": {
+      "theme": "TestSuperUser",
+      "body": "Test",
+      "company": null,
+      "clients": []
+    }
+  }
+]
