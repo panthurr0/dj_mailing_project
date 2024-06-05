@@ -19,8 +19,6 @@ class Client(models.Model):
     comment = models.TextField(verbose_name='Комментарий', **NULLABLE)
     company = models.ForeignKey(Company, on_delete=models.SET_NULL, verbose_name='компания', **NULLABLE)
 
-    is_active = models.BooleanField(verbose_name='Статус пользователя', default=False)
-
     def __str__(self):
         return f'{self.name}'
 
@@ -44,7 +42,7 @@ class MailingText(models.Model):
         verbose_name_plural = 'Сообщения'
         permissions = [
             (
-                "cann_change_textfornewsletter_list",
+                "can_change_mailingtext_list",
                 "Может изменять текст для рассылок",
             ),
         ]
@@ -79,11 +77,11 @@ class Mailing(models.Model):
         verbose_name = 'Рассылка'
         verbose_name_plural = 'Рассылки'
         permissions = [
-            ("can_view_all_newsletter", "Может видеть все рассылки"),
-            ("can_disable_newsletter", "Может отключать рассылки"),
-            ("cannot_change_newsletter", "Не может изменять рассылки"),
-            ("cannot_delete_newsletter", "Не может удалять рассылки"),
-            ("cannot_create_newsletter", "Не может создавать рассылки"),
+            ("can_view_all_mailing", "Может видеть все рассылки"),
+            ("can_disable_mailing", "Может отключать рассылки"),
+            ("cannot_change_mailing", "Не может изменять рассылки"),
+            ("cannot_delete_mailing", "Не может удалять рассылки"),
+            ("cannot_create_mailing", "Не может создавать рассылки"),
         ]
 
 
