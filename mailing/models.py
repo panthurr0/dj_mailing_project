@@ -26,7 +26,12 @@ class Client(models.Model):
         verbose_name = 'Клиент'
         verbose_name_plural = 'Клиенты'
         ordering = ('name',)
-
+        permissions = [
+            (
+                "can_view_client_list",
+                "Может просматривать пользователей сервиса",
+            ),
+        ]
 
 class MailingText(models.Model):
     theme = models.CharField(verbose_name='Тема письма', max_length=150, **NULLABLE)

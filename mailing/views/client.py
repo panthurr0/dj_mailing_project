@@ -11,7 +11,7 @@ class ClientListView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         user = self.request.user
-        if user.is_superuser:
+        if user.is_superuser or user.has_perm('client.can_view_client_list'):
             return Client.objects.all()
         return Client.objects.filter(company=user.company)
 
