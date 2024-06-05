@@ -17,6 +17,7 @@ redis = "^5.0.4"
 django-crontab = "^0.7.1"
 pytz = "^2024.1"
 django-bootstrap-datepicker-plus = "^5.0.5"
+django-extensions = "^3.2.3"
 
 
 [build-system]
