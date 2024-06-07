@@ -94,7 +94,7 @@ class Command(BaseCommand):
                      image=blog_fields.get('image'),
                      count_views=blog_fields.get('count_views'),
                      created_at=blog_fields.get('created_at'),
-                     author=Client.objects.get(pk=blog_fields.get('author'))
+                     author=Client.objects.get(pk=blog_fields.get('author')) if blog_fields.get('author') else None
                      )
             )
         Blog.objects.bulk_create(blog_for_create)
