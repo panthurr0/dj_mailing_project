@@ -5,13 +5,15 @@ from django.core.management import BaseCommand
 from django.db import connection
 
 from mailing.models import Client, MailingText, Mailing, Status
-from users.models import User
+from blog.models import Blog
 
 ROOT = pathlib.Path(__file__).parent.parent.parent.parent
 DATA_CLIENT = pathlib.Path(ROOT, 'json_data', 'client.json')
 DATA_MAILINGTEXT = pathlib.Path(ROOT, 'json_data', 'mailingtext.json')
 DATA_MAILING = pathlib.Path(ROOT, 'json_data', 'mailing.json')
 DATA_STATUS = pathlib.Path(ROOT, 'json_data', 'status.json')
+
+DATA_BLOG = pathlib.Path(ROOT, 'json_data', 'blog.json')
 
 
 class Command(BaseCommand):
@@ -29,16 +31,17 @@ class Command(BaseCommand):
         MailingText.objects.all().delete()
         Mailing.objects.all().delete()
         Status.objects.all().delete()
+        Blog.objects.all().delete()
 
         client_for_create = []
         mailingtext_for_create = []
-        mailing_for_create = []
         status_for_create = []
+        blog_for_create = []
 
         with connection.cursor() as cursor:
             cursor.execute(
                 "TRUNCATE TABLE mailing_client, mailing_mailingtext, mailing_mailing,"
-                "mailing_status RESTART IDENTITY CASCADE;")
+                "mailing_status, blog_blog RESTART IDENTITY CASCADE;")
 
         for client in Command.json_read(DATA_CLIENT):
             client_fields = client.get('fields')
@@ -82,3 +85,16 @@ class Command(BaseCommand):
                        server_response=status_fields.get('server_response'))
             )
         Status.objects.bulk_create(status_for_create)
+
+        for blog in Command.json_read(DATA_BLOG):
+            blog_fields = blog.get('fields')
+            blog_for_create.append(
+                Blog(title=blog_fields.get('title'),
+                     text=blog_fields.get('text'),
+                     image=blog_fields.get('image'),
+                     count_views=blog_fields.get('count_views'),
+                     created_at=blog_fields.get('created_at'),
+                     author=Client.objects.get(pk=blog_fields.get('author'))
+                     )
+            )
+        Blog.objects.bulk_create(blog_for_create)
