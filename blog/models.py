@@ -14,7 +14,7 @@ class Blog(models.Model):
     author = models.ForeignKey(User, on_delete=models.SET_NULL, verbose_name="Автор", blank=True, null=True)
 
     def __str__(self):
-        return self.title, self.count_views, self.created_at
+        return f'{self.title}, {self.count_views}, {self.created_at}'
 
     class Meta:
         verbose_name = "Статья"
